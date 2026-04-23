@@ -11,14 +11,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
+      - name: Fix Structure & Install
         run: |
+          # Folder structure theek karna
+          mkdir -p src
+          # Agar App.tsx bahar hai, toh use src ke andar copy karke main.tsx bana do
+          if [ -f "App.tsx" ]; then cp App.tsx src/main.tsx; fi
+          
+          # Dependencies install
           npm install --force
           
       - name: Build Project
         run: |
-          # Agar main.tsx nahi mil rahi toh use ignore karke build try karega
-          npm run build -- --warnOnMissingId
+          # Vite build ko force mode mein chalana
+          npm run build
           
       - name: Upload dist
         uses: actions/upload-artifact@v4
